@@ -23,6 +23,17 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
+      - name: Suppress known build warnings
+        shell: pwsh
+        run: |
+          @"
+          <Project>
+            <PropertyGroup>
+              <NoWarn>`$(NoWarn);CS8602;SYSLIB0057</NoWarn>
+            </PropertyGroup>
+          </Project>
+          "@ | Out-File -FilePath Directory.Build.props -Encoding utf8
+
       - name: Publish WPF normal version
         run: >
           dotnet publish Guard.WPF
@@ -30,7 +41,6 @@ jobs:
           -c Release
           --self-contained true
           -p:PublishSingleFile=true
-          -p:NoWarn=CS8602,SYSLIB0057
           -o artifacts/wpf-normal
 
       - name: Publish WPF portable version
@@ -41,7 +51,6 @@ jobs:
           --self-contained true
           -p:PublishSingleFile=true
           -p:IsPortable=true
-          -p:NoWarn=CS8602,SYSLIB0057
           -o artifacts/wpf-portable
 
       - name: Publish CLI version
@@ -51,7 +60,6 @@ jobs:
           -c Release
           --self-contained true
           -p:PublishSingleFile=true
-          -p:NoWarn=CS8602,SYSLIB0057
           -o artifacts/cli
 
       - name: Rename output files
