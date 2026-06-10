@@ -8,14 +8,11 @@ on:
 jobs:
   build:
     name: Build Windows x64
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     timeout-minutes: 40
 
     permissions:
       contents: read
-
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout repository
@@ -33,6 +30,7 @@ jobs:
           -c Release
           --self-contained true
           -p:PublishSingleFile=true
+          -p:NoWarn='CS8602;SYSLIB0057'
           -o artifacts/wpf-normal
 
       - name: Publish WPF portable version
@@ -43,6 +41,7 @@ jobs:
           --self-contained true
           -p:PublishSingleFile=true
           -p:IsPortable=true
+          -p:NoWarn='CS8602;SYSLIB0057'
           -o artifacts/wpf-portable
 
       - name: Publish CLI version
@@ -52,6 +51,7 @@ jobs:
           -c Release
           --self-contained true
           -p:PublishSingleFile=true
+          -p:NoWarn='CS8602;SYSLIB0057'
           -o artifacts/cli
 
       - name: Rename output files
@@ -72,25 +72,25 @@ jobs:
           Compress-Archive -Path "artifacts/final/*" -DestinationPath "artifacts/2FAGuard-All.zip" -Force
 
       - name: Upload WPF normal artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: 2FAGuard-WPF
           path: artifacts/2FAGuard-WPF.zip
 
       - name: Upload WPF portable artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: 2FAGuard-Portable
           path: artifacts/2FAGuard-Portable.zip
 
       - name: Upload CLI artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: 2FAGuard-CLI
           path: artifacts/2FAGuard-CLI.zip
 
       - name: Upload all artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: 2FAGuard-All
           path: artifacts/2FAGuard-All.zip
