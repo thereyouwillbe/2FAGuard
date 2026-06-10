@@ -30,7 +30,7 @@ jobs:
           -c Release
           --self-contained true
           -p:PublishSingleFile=true
-          -p:NoWarn='CS8602;SYSLIB0057'
+          -p:NoWarn=CS8602,SYSLIB0057
           -o artifacts/wpf-normal
 
       - name: Publish WPF portable version
@@ -41,7 +41,7 @@ jobs:
           --self-contained true
           -p:PublishSingleFile=true
           -p:IsPortable=true
-          -p:NoWarn='CS8602;SYSLIB0057'
+          -p:NoWarn=CS8602,SYSLIB0057
           -o artifacts/wpf-portable
 
       - name: Publish CLI version
@@ -51,7 +51,7 @@ jobs:
           -c Release
           --self-contained true
           -p:PublishSingleFile=true
-          -p:NoWarn='CS8602;SYSLIB0057'
+          -p:NoWarn=CS8602,SYSLIB0057
           -o artifacts/cli
 
       - name: Rename output files
